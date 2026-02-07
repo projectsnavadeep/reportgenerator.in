@@ -1,0 +1,36 @@
+{
+  "report_title": "Monthly Sales Report - Q1",
+  "currency": "INR",
+  "business_type": "Retail",
+  "data": [
+    {
+      "region": "North",
+      "revenue": 120000,
+      "expenses": 80000,
+      "profit": 40000
+    },
+    {
+      "region": "South",
+      "revenue": 95000,
+      "expenses": 70000,
+      "profit": 25000
+    },
+    {
+      "region": "East",
+      "revenue": 140000,
+      "expenses": 90000,
+      "profit": 50000
+    },
+    {
+      "region": "West",
+      "revenue": 60000,
+      "expenses": 55000,
+      "profit": 5000
+    }
+  ],
+  "notes": [
+    "West region shows very low profit margin",
+    "East region has the highest growth",
+    "Expenses increased in South region in March"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "financial_data": {
+    "type": "quarterly_financials",
+    "period": "Q1 2024",
+    "revenue_streams": [
+      {
+        "product": "Software Subscriptions",
+        "q1_revenue": 250000,
+        "q1_cost": 125000,
+        "q1_profit": 125000,
+        "growth_rate": 15.5
+      },
+      {
+        "product": "Consulting Services",
+        "q1_revenue": 180000,
+        "q1_cost": 90000,
+        "q1_profit": 90000,
+        "growth_rate": 8.2
+      },
+      {
+        "product": "Training Programs",
+        "q1_revenue": 75000,
+        "q1_cost": 30000,
+        "q1_profit": 45000,
+        "growth_rate": 22.3
+      }
+    ],
+    "expenses": {
+      "salaries": 150000,
+      "marketing": 45000,
+      "operations": 30000,
+      "rd": 60000,
+      "overhead": 25000
+    },
+    "metrics": {
+      "total_revenue": 505000,
+      "total_expenses": 310000,
+      "net_profit": 195000,
+      "profit_margin": 38.6,
+      "cash_flow": 180000
+    }
+  }
+}

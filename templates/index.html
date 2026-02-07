@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Report Generator - Powered by Llama 3.2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .tech-stack {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .panel {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        select, textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .file-upload {
+            border: 2px dashed #667eea;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .file-upload:hover {
+            background: #f8f9ff;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .report-output {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            border: 2px solid #f88;
+            color: #c00;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #efe;
+            border: 2px solid #8f8;
+            color: #070;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .sample-data {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            border-radius: 4px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Report Generator</h1>
+            <p class="subtitle">Transform Data into Executive-Ready Business Reports</p>
+            <div class="tech-stack">
+                Built with: <strong>Llama 3.2</strong> | <strong>LangChain</strong> | <strong>Ollama</strong> | <strong>Flask</strong>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Input Panel -->
+            <div class="panel">
+                <h2>📊 Input Data</h2>
+                
+                <div class="input-group">
+                    <label for="dataType">Data Format</label>
+                    <select id="dataType" onchange="toggleInputMethod()">
+                        <option value="csv">CSV (Comma-Separated)</option>
+                        <option value="json">JSON (Structured Data)</option>
+                        <option value="text">Text (Plain Text)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Upload File or Paste Data</label>
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <p>📁 Click to upload file</p>
+                        <p style="font-size: 0.9em; color: #666;">Supports: .csv, .json, .txt</p>
+                        <input type="file" id="fileInput" accept=".csv,.json,.txt" onchange="handleFileSelect(event)">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="textData">Or Paste Data Here</label>
+                    <textarea id="textData" placeholder="Paste your CSV, JSON, or text data here..."></textarea>
+                    <div class="sample-data">
+                        <strong>Sample CSV:</strong><br>
+                        product,sales,profit<br>
+                        Laptop,15000,3000<br>
+                        Phone,25000,5000
+                    </div>
+                </div>
+
+               <button onclick="generateReport()">Generate</button>
+
+            </div>
+
+            <!-- Output Panel -->
+            <div class="panel">
+                <h2>📄 Generated Report</h2>
+                <div id="status"></div>
+                <div id="reportOutput" class="report-output">
+                    <p style="color: #999; text-align: center; padding: 40px;">
+                        Your generated report will appear here...<br><br>
+                        📌 Upload data and click "Generate Report" to start
+                    </p>
+                </div>
+                <div class="action-buttons" id="actionButtons" style="display: none;">
+                    <button onclick="copyReport()">📋 Copy</button>
+                    <button onclick="downloadReport()">💾 Download</button>
+                    <button onclick="clearReport()">🗑️ Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentReport = '';
+
+        function toggleInputMethod() {
+            const dataType = document.getElementById('dataType').value;
+            // Could add type-specific hints here
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('textData').value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        async function generateReport() {
+            const dataType = document.getElementById('dataType').value;
+            const textData = document.getElementById('textData').value.trim();
+            const fileInput = document.getElementById('fileInput');
+            
+            if (!textData && !fileInput.files.length) {
+                showStatus('error', '⚠️ Please provide data (upload file or paste text)');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.disabled = true;
+            generateBtn.textContent = '⏳ Generating Report...';
+
+            const reportOutput = document.getElementById('reportOutput');
+            reportOutput.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>AI is analyzing your data and generating insights...</p>
+                    <p style="font-size: 0.9em; color: #999;">This may take 10-30 seconds</p>
+                </div>
+            `;
+
+            try {
+                const formData = new FormData();
+                formData.append('data_type', dataType);
+                
+                if (fileInput.files.length > 0) {
+                    formData.append('file', fileInput.files[0]);
+                } else {
+                    formData.append('text_data', textData);
+                }
+
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    currentReport = result.report;
+                    reportOutput.textContent = result.report;
+                    showStatus('success', '✅ Report generated successfully!');
+                    document.getElementById('actionButtons').style.display = 'flex';
+                } else {
+                    showStatus('error', '❌ Error: ' + result.error);
+                    reportOutput.innerHTML = '<p style="color: #c00;">Failed to generate report. Please check your data format and try again.</p>';
+                }
+            } catch (error) {
+                showStatus('error', '❌ Network error: ' + error.message);
+                reportOutput.innerHTML = '<p style="color: #c00;">Network error. Make sure the server is running.</p>';
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.textContent = '🎯 Generate Report';
+            }
+        }
+
+        function showStatus(type, message) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = type;
+            statusDiv.textContent = message;
+            setTimeout(() => {
+                statusDiv.className = '';
+                statusDiv.textContent = '';
+            }, 5000);
+        }
+
+        function copyReport() {
+            navigator.clipboard.writeText(currentReport).then(() => {
+                showStatus('success', '📋 Report copied to clipboard!');
+            });
+        }
+
+        function downloadReport() {
+            const blob = new Blob([currentReport], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `business_report_${new Date().toISOString().slice(0,10)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showStatus('success', '💾 Report downloaded!');
+        }
+
+        function clearReport() {
+            document.getElementById('reportOutput').innerHTML = `
+                <p style="color: #999; text-align: center; padding: 40px;">
+                    Your generated report will appear here...<br><br>
+                    📌 Upload data and click "Generate Report" to start
+                </p>
+            `;
+            document.getElementById('actionButtons').style.display = 'none';
+            currentReport = '';
+        }
+    </script>
+</body>
+</html>

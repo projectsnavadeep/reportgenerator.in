@@ -1,0 +1,11 @@
+document_id,filename,title,category,pages,upload_date,size_mb,source
+DOC001,Annual_Report_2023.pdf,Annual Financial Report 2023,Finance,85,2024-01-15,4.2,Internal
+DOC002,Q3_Marketing_Analysis.pdf,Q3 Marketing Performance Analysis,Marketing,42,2024-01-16,2.1,Internal
+DOC003,Research_Paper_AI_Ethics.pdf,AI Ethics and Governance Framework,Research,32,2024-01-17,1.8,External
+DOC004,Customer_Feedback_Summary.pdf,Customer Feedback Analysis Q4 2023,Support,28,2024-01-18,1.5,Internal
+DOC005,Technical_Specs_V2.pdf,Technical Specifications Document V2.0,Engineering,65,2024-01-19,3.8,Internal
+DOC006,Competitor_Analysis.pdf,Market Competitor Analysis 2024,Strategy,38,2024-01-20,2.2,External
+DOC007,HR_Policies_Handbook.pdf,Human Resources Policies Handbook,HR,120,2024-01-21,6.5,Internal
+DOC008,Project_Timeline.pdf,Project Alpha Timeline and Milestones,Project,24,2024-01-22,1.2,Internal
+DOC009,Sales_Performance.pdf,Sales Performance Metrics Q1-Q4,Sales,45,2024-01-23,2.6,Internal
+DOC010,Data_Privacy_Policy.pdf,Data Privacy and Compliance Policy,Legal,56,2024-01-24,3.1,Internal

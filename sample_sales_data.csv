@@ -1,0 +1,13 @@
+product,sales,profit,region,quarter
+Laptop,15000,3000,North,Q1
+Phone,25000,5000,South,Q1
+Tablet,8000,1500,East,Q1
+Monitor,12000,2400,West,Q1
+Laptop,18000,3600,North,Q2
+Phone,28000,5600,South,Q2
+Tablet,9500,1800,East,Q2
+Monitor,14000,2800,West,Q2
+Laptop,22000,4400,North,Q3
+Phone,32000,6400,South,Q3
+Tablet,11000,2100,East,Q3
+Monitor,16000,3200,West,Q3
