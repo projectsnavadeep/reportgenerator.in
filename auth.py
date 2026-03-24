@@ -37,10 +37,10 @@ def init_db():
         """)
         
         conn.commit()
-        print(f"✓ Database initialized successfully at {DB}")
+        print(f"[OK] Database initialized successfully at {DB}")
         
     except sqlite3.Error as e:
-        print(f"✗ Database initialization error: {e}")
+        print(f"[ERROR] Database initialization error: {e}")
         raise
     finally:
         if conn:
@@ -294,35 +294,35 @@ def test_auth():
     print(f"\n1. Creating user: {test_email}")
     result = create_user(test_email, test_password, "admin")
     if result["success"]:
-        print(f"✓ User created successfully: {result['user']}")
+        print(f"[OK] User created successfully: {result['user']}")
     else:
-        print(f"✗ User creation failed: {result.get('error', 'Unknown error')}")
+        print(f"[ERROR] User creation failed: {result.get('error', 'Unknown error')}")
     
     # Test duplicate user
     print(f"\n2. Testing duplicate user creation: {test_email}")
     result = create_user(test_email, "anotherpassword")
     if not result["success"]:
-        print(f"✓ Correctly prevented duplicate user: {result.get('error')}")
+        print(f"[OK] Correctly prevented duplicate user: {result.get('error')}")
     
     # Test validation
     print(f"\n3. Testing valid login for: {test_email}")
     user = validate_user(test_email, test_password)
     if user:
-        print(f"✓ Login successful: {user}")
+        print(f"[OK] Login successful: {user}")
     else:
-        print(f"✗ Login failed")
+        print(f"[ERROR] Login failed")
     
     # Test invalid password
     print(f"\n4. Testing invalid password for: {test_email}")
     user = validate_user(test_email, "wrongpassword")
     if not user:
-        print("✓ Correctly rejected invalid password")
+        print(f"[OK] Correctly rejected invalid password")
     
     # Test non-existent user
     print(f"\n5. Testing non-existent user")
     user = validate_user("nonexistent@example.com", "password")
     if not user:
-        print("✓ Correctly rejected non-existent user")
+        print(f"[OK] Correctly rejected non-existent user")
     
     # List users
     print(f"\n6. Listing all users:")

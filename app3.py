@@ -1,4 +1,4 @@
-﻿"""
+"""
 AI Business Companion - Professional Edition
 Perplexity AI-inspired minimal design with intelligent data processing
 Optimized for all devices, production-ready
@@ -1660,15 +1660,15 @@ def health_check():
 
 if __name__ == "__main__":
     print("""
-    ╔══════════════════════════════════════════════════════════════╗
-    ║         AI Business Companion - Professional Edition         ║
-    ║                                                              ║
-    ║  ✓ Universal file support (Excel, PDF, Word, JSON, CSV)     ║
-    ║  ✓ Auto-format detection                                     ║
-    ║  ✓ Perplexity AI-inspired minimal design                     ║
-    ║  ✓ Optimized for mobile, tablet, and desktop                ║
-    ║                                                              ║
-    ║  Running at http://localhost:5000                            ║
-    ╚══════════════════════════════════════════════════════════════╝
+    +--------------------------------------------------------------+
+    |         AI Business Companion - Professional Edition         |
+    |                                                              |
+    |  [OK] Universal file support (Excel, PDF, Word, JSON, CSV)   |
+    |  [OK] Auto-format detection                                  |
+    |  [OK] Perplexity AI-inspired minimal design                  |
+    |  [OK] Optimized for mobile, tablet, and desktop              |
+    |                                                              |
+    |  Running at http://localhost:5000                            |
+    +--------------------------------------------------------------+
     """)
     app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
