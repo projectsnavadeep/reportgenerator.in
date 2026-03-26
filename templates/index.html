@@ -2,410 +2,976 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Report Generator - Powered by Llama 3.2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#FFFFFF">
+    <title>AI Business Companion</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+:root {
+    --bg: #FFFFFF;
+    --surface: #F9FAFB;
+    --surface-hover: #F3F4F6;
+    --border: #E5E7EB;
+    --border-focus: #10B981;
+    --text: #111827;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --primary: #10B981;
+    --primary-hover: #059669;
+    --primary-light: #D1FAE5;
+    --accent: #3B82F6;
+    --error: #EF4444;
+    --error-bg: #FEE2E2;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+html {
+    scroll-behavior: smooth;
+}
 
-        header {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-            text-align: center;
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
 
-        h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
+/* Navigation - Clean & Minimal */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+}
 
-        .subtitle {
-            color: #666;
-            font-size: 1.1em;
-        }
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--text);
+    text-decoration: none;
+}
 
-        .tech-stack {
-            margin-top: 15px;
-            padding: 10px;
-            background: #f0f0f0;
-            border-radius: 8px;
-            font-size: 0.9em;
-            color: #555;
-        }
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary), #34D399);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+}
 
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
+.nav-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
 
-        .panel {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+/* Container */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 96px 24px 48px;
+}
 
-        h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
+/* Hero - Perplexity Style */
+.hero {
+    text-align: center;
+    margin-bottom: 48px;
+}
 
-        .input-group {
-            margin-bottom: 20px;
-        }
+.hero h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-        }
+.hero p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
 
-        select, textarea, input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
+/* Status Badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--primary-light);
+    color: var(--primary-hover);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
 
-        select:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
 
-        textarea {
-            resize: vertical;
-            min-height: 150px;
-            font-family: 'Courier New', monospace;
-        }
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
 
-        .file-upload {
-            border: 2px dashed #667eea;
-            padding: 30px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
+/* Main Card */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin-bottom: 24px;
+    transition: var(--transition);
+}
 
-        .file-upload:hover {
-            background: #f8f9ff;
-        }
+.card:hover {
+    border-color: #D1D5DB;
+    box-shadow: var(--shadow-md);
+}
 
-        .file-upload input {
-            display: none;
-        }
+/* Form Elements - Clean Perplexity Style */
+.form-group {
+    margin-bottom: 24px;
+}
 
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 8px;
+}
 
-        button:active {
-            transform: translateY(0);
-        }
+.input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font-size: 15px;
+    font-family: inherit;
+    transition: var(--transition);
+    outline: none;
+}
 
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
+.input:hover {
+    border-color: #D1D5DB;
+}
 
-        .report-output {
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            min-height: 400px;
-            max-height: 600px;
-            overflow-y: auto;
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
-            font-size: 0.9em;
-            line-height: 1.6;
-        }
+.input:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #667eea;
-        }
+select.input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+}
 
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
+textarea.input {
+    min-height: 140px;
+    resize: vertical;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+}
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+/* Upload Zone - Clean Design */
+.upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-md);
+    padding: 40px 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--bg);
+    position: relative;
+}
 
-        .error {
-            background: #fee;
-            border: 2px solid #f88;
-            color: #c00;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+.upload-zone:hover, .upload-zone.drag-active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
 
-        .success {
-            background: #efe;
-            border: 2px solid #8f8;
-            color: #070;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+.upload-zone input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
 
-        .sample-data {
-            background: #fff9e6;
-            border-left: 4px solid #ffc107;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 0.85em;
-            border-radius: 4px;
-        }
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: var(--transition);
+}
 
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
+.upload-zone:hover .upload-icon {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
 
-        .action-buttons button {
-            flex: 1;
-        }
+.upload-zone h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+}
 
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
+.upload-zone p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.file-preview {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--primary-light);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-md);
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--primary-hover);
+    font-weight: 500;
+}
+
+.file-preview.show {
+    display: flex;
+}
+
+.file-preview button {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.file-preview button:hover {
+    background: rgba(0,0,0,0.05);
+    color: var(--error);
+}
+
+/* Or Divider */
+.or-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.or-divider::before, .or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* Button - Perplexity Style */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--text);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.btn:hover {
+    background: #374151;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary {
+    background: var(--primary);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--surface);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 14px;
+    width: auto;
+}
+
+/* Loading State - Minimal */
+.loading-state {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 20px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-state h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.loading-state p {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Result State */
+.result-state {
+    display: none;
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.result-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.success-badge {
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+/* Output Box - Clean Code Style */
+.output-box {
+    background: #1F2937;
+    border-radius: var(--radius-md);
+    padding: 20px;
+    color: #E5E7EB;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    max-height: 500px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    position: relative;
+}
+
+.output-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(31,41,55,0.8), transparent);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    pointer-events: none;
+}
+
+.output-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot-red { background: #EF4444; }
+.dot-yellow { background: #F59E0B; }
+.dot-green { background: #10B981; }
+
+/* Features Grid */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.feature {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+}
+
+.feature:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-light);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.feature h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+}
+
+.feature p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+}
+
+/* Auth Pages - Clean Centered */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--surface);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.auth-logo {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--primary), #34D399);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.auth-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+/* Alert */
+.alert {
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-error {
+    background: var(--error-bg);
+    color: var(--error);
+    border: 1px solid #FECACA;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .container {
+        padding: 80px 16px 32px;
+    }
+    
+    .card {
+        padding: 24px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav {
+        padding: 0 16px;
+    }
+    
+    .hero h1 {
+        font-size: 28px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
     </style>
 </head>
 <body>
+    <nav class="nav">
+        <a href="/" class="nav-brand">
+            <div class="logo-icon">AI</div>
+            <span>Business Companion</span>
+        </a>
+        <div class="nav-actions">
+            <a href="/logout" class="btn btn-secondary btn-sm">Logout</a>
+        </div>
+    </nav>
+    
     <div class="container">
-        <header>
-            <h1>AI Report Generator</h1>
-            <p class="subtitle">Transform Data into Executive-Ready Business Reports</p>
-            <div class="tech-stack">
-                Built with: <strong>Llama 3.2</strong> | <strong>LangChain</strong> | <strong>Ollama</strong> | <strong>Flask</strong>
+        <div class="hero animate-in">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                System Operational
             </div>
-        </header>
-
-        <div class="main-content">
-            <!-- Input Panel -->
-            <div class="panel">
-                <h2>📊 Input Data</h2>
-                
-                <div class="input-group">
-                    <label for="dataType">Data Format</label>
-                    <select id="dataType" onchange="toggleInputMethod()">
-                        <option value="csv">CSV (Comma-Separated)</option>
-                        <option value="json">JSON (Structured Data)</option>
-                        <option value="text">Text (Plain Text)</option>
+            <h1>Transform Data Into Decisions</h1>
+            <p>Upload any file or paste data to generate comprehensive business intelligence reports instantly.</p>
+        </div>
+        
+        <div class="card animate-in">
+            <div class="form-row">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>Business Sector</label>
+                    <select id="business" class="input">
+                        <option>General Business</option>
+                        <option>Retail & E-Commerce</option>
+                        <option>Real Estate</option>
+                        <option>Financial Services</option>
+                        <option>Healthcare</option>
+                        <option>Technology</option>
+                        <option>Manufacturing</option>
                     </select>
                 </div>
-
-                <div class="input-group">
-                    <label>Upload File or Paste Data</label>
-                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
-                        <p>📁 Click to upload file</p>
-                        <p style="font-size: 0.9em; color: #666;">Supports: .csv, .json, .txt</p>
-                        <input type="file" id="fileInput" accept=".csv,.json,.txt" onchange="handleFileSelect(event)">
-                    </div>
+                
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>Analysis Focus</label>
+                    <select id="focus" class="input">
+                        <option value="full">Comprehensive Analysis</option>
+                        <option value="profit">Profit Optimization</option>
+                        <option value="loss">Risk Assessment</option>
+                        <option value="growth">Growth Strategy</option>
+                    </select>
                 </div>
-
-                <div class="input-group">
-                    <label for="textData">Or Paste Data Here</label>
-                    <textarea id="textData" placeholder="Paste your CSV, JSON, or text data here..."></textarea>
-                    <div class="sample-data">
-                        <strong>Sample CSV:</strong><br>
-                        product,sales,profit<br>
-                        Laptop,15000,3000<br>
-                        Phone,25000,5000
-                    </div>
+                
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>Output Format</label>
+                    <select id="outputType" class="input">
+                        <option value="text">Interactive Report</option>
+                        <option value="pdf">PDF Document</option>
+                        <option value="docx">Word Document</option>
+                        <option value="pptx">PowerPoint</option>
+                    </select>
                 </div>
-
-               <button onclick="generateReport()">Generate</button>
-
             </div>
-
-            <!-- Output Panel -->
-            <div class="panel">
-                <h2>📄 Generated Report</h2>
-                <div id="status"></div>
-                <div id="reportOutput" class="report-output">
-                    <p style="color: #999; text-align: center; padding: 40px;">
-                        Your generated report will appear here...<br><br>
-                        📌 Upload data and click "Generate Report" to start
-                    </p>
+            
+            <div class="form-group">
+                <label>Upload Data</label>
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json,.txt,.md,.pdf,.docx,.doc">
+                    <div class="upload-icon">📄</div>
+                    <h4>Drop file here or click to browse</h4>
+                    <p>Supports CSV, Excel, PDF, Word, JSON, and text files</p>
                 </div>
-                <div class="action-buttons" id="actionButtons" style="display: none;">
-                    <button onclick="copyReport()">📋 Copy</button>
-                    <button onclick="downloadReport()">💾 Download</button>
-                    <button onclick="clearReport()">🗑️ Clear</button>
+                <div class="file-preview" id="filePreview">
+                    <span>📎</span>
+                    <span id="fileName"></span>
+                    <button onclick="clearFile()" title="Remove file">×</button>
+                </div>
+            </div>
+            
+            <div class="or-divider">or paste data</div>
+            
+            <div class="form-group" style="margin-bottom:0;">
+                <textarea id="dataInput" class="input" placeholder="Paste your data here... CSV, JSON, or plain text"></textarea>
+            </div>
+            
+            <div style="margin-top:24px;">
+                <button class="btn btn-primary" id="genBtn" onclick="generate()">
+                    <span>⚡</span>
+                    <span>Generate Report</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="loading-state" id="loadingState">
+            <div class="loading-spinner"></div>
+            <h3>Processing your data</h3>
+            <p id="loadingText">Analyzing patterns...</p>
+        </div>
+        
+        <div class="result-state" id="resultState">
+            <div class="card">
+                <div class="result-header">
+                    <div class="result-title">
+                        <div class="success-badge">✓</div>
+                        <span>Analysis Complete</span>
+                    </div>
+                </div>
+                <div class="output-box" id="outputBox">
+                    <div class="output-header">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                        <span style="margin-left:8px;font-size:12px;color:#9CA3AF;">output</span>
+                    </div>
+                    <div id="outputContent"></div>
                 </div>
             </div>
         </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h4>Universal File Support</h4>
+                <p>Automatically detects and processes Excel, PDF, Word, JSON, CSV, and text files.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h4>Instant Analysis</h4>
+                <p>AI-powered insights generated in seconds with executive-ready formatting.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h4>Secure Processing</h4>
+                <p>Your data is processed in-memory and never stored on our servers.</p>
+            </div>
+        </div>
     </div>
-
+    
+    <div class="footer">
+        <p>AI Business Companion • Professional Intelligence Platform</p>
+    </div>
+    
     <script>
-        let currentReport = '';
-
-        function toggleInputMethod() {
-            const dataType = document.getElementById('dataType').value;
-            // Could add type-specific hints here
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('textData').value = e.target.result;
-                };
-                reader.readAsText(file);
+        const fileInput = document.getElementById('fileInput');
+        const uploadZone = document.getElementById('uploadZone');
+        const filePreview = document.getElementById('filePreview');
+        const fileName = document.getElementById('fileName');
+        const dataInput = document.getElementById('dataInput');
+        
+        // File handling
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('drag-active');
+        });
+        
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('drag-active');
+        });
+        
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('drag-active');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
             }
-        }
-
-        async function generateReport() {
-            const dataType = document.getElementById('dataType').value;
-            const textData = document.getElementById('textData').value.trim();
-            const fileInput = document.getElementById('fileInput');
-            
-            if (!textData && !fileInput.files.length) {
-                showStatus('error', '⚠️ Please provide data (upload file or paste text)');
+        });
+        
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleFile(fileInput.files[0]);
+            }
+        });
+        
+        function handleFile(file) {
+            // Check file size (50MB limit)
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File too large. Maximum size is 50MB.');
                 return;
             }
-
-            const generateBtn = document.getElementById('generateBtn');
-            generateBtn.disabled = true;
-            generateBtn.textContent = '⏳ Generating Report...';
-
-            const reportOutput = document.getElementById('reportOutput');
-            reportOutput.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>AI is analyzing your data and generating insights...</p>
-                    <p style="font-size: 0.9em; color: #999;">This may take 10-30 seconds</p>
-                </div>
-            `;
-
+            
+            fileName.textContent = file.name + ' (' + formatBytes(file.size) + ')';
+            filePreview.classList.add('show');
+            dataInput.value = ''; // Clear text input when file selected
+        }
+        
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+        
+        function clearFile() {
+            fileInput.value = '';
+            filePreview.classList.remove('show');
+        }
+        
+        // Generate report
+        const messages = [
+            "Detecting file format...",
+            "Extracting and structuring data...",
+            "Running AI analysis models...",
+            "Generating insights and recommendations...",
+            "Finalizing report..."
+        ];
+        
+        async function generate() {
+            const btn = document.getElementById('genBtn');
+            const loading = document.getElementById('loadingState');
+            const result = document.getElementById('resultState');
+            const outputType = document.getElementById('outputType').value;
+            
+            // Validation
+            const hasFile = fileInput.files.length > 0;
+            const hasText = dataInput.value.trim().length > 0;
+            
+            if (!hasFile && !hasText) {
+                uploadZone.style.borderColor = 'var(--error)';
+                setTimeout(() => {
+                    uploadZone.style.borderColor = '';
+                }, 2000);
+                return;
+            }
+            
+            // UI State
+            btn.disabled = true;
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            loading.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+            
+            // Cycle messages
+            let msgIdx = 0;
+            const msgInterval = setInterval(() => {
+                document.getElementById('loadingText').textContent = messages[msgIdx];
+                msgIdx = (msgIdx + 1) % messages.length;
+            }, 1500);
+            
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('business', document.getElementById('business').value);
+            formData.append('focus', document.getElementById('focus').value);
+            formData.append('output_type', outputType);
+            
+            if (hasFile) {
+                formData.append('file', fileInput.files[0]);
+            } else {
+                formData.append('text_data', dataInput.value);
+            }
+            
             try {
-                const formData = new FormData();
-                formData.append('data_type', dataType);
-                
-                if (fileInput.files.length > 0) {
-                    formData.append('file', fileInput.files[0]);
-                } else {
-                    formData.append('text_data', textData);
-                }
-
                 const response = await fetch('/generate', {
                     method: 'POST',
                     body: formData
                 });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    currentReport = result.report;
-                    reportOutput.textContent = result.report;
-                    showStatus('success', '✅ Report generated successfully!');
-                    document.getElementById('actionButtons').style.display = 'flex';
+                
+                clearInterval(msgInterval);
+                
+                if (outputType === 'text') {
+                    const data = await response.json();
+                    if (data.success) {
+                        showResult(data.report, false);
+                    } else {
+                        throw new Error(data.error);
+                    }
                 } else {
-                    showStatus('error', '❌ Error: ' + result.error);
-                    reportOutput.innerHTML = '<p style="color: #c00;">Failed to generate report. Please check your data format and try again.</p>';
+                    const blob = await response.blob();
+                    window.currentBlob = blob;
+                    window.currentExt = outputType;
+                    showResult('✓ Document generated successfully. Click download to save.', true);
                 }
             } catch (error) {
-                showStatus('error', '❌ Network error: ' + error.message);
-                reportOutput.innerHTML = '<p style="color: #c00;">Network error. Make sure the server is running.</p>';
-            } finally {
-                generateBtn.disabled = false;
-                generateBtn.textContent = '🎯 Generate Report';
+                clearInterval(msgInterval);
+                showResult('Error: ' + error.message, false);
             }
+            
+            btn.disabled = false;
         }
-
-        function showStatus(type, message) {
-            const statusDiv = document.getElementById('status');
-            statusDiv.className = type;
-            statusDiv.textContent = message;
-            setTimeout(() => {
-                statusDiv.className = '';
-                statusDiv.textContent = '';
-            }, 5000);
-        }
-
-        function copyReport() {
-            navigator.clipboard.writeText(currentReport).then(() => {
-                showStatus('success', '📋 Report copied to clipboard!');
-            });
-        }
-
-        function downloadReport() {
-            const blob = new Blob([currentReport], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `business_report_${new Date().toISOString().slice(0,10)}.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showStatus('success', '💾 Report downloaded!');
-        }
-
-        function clearReport() {
-            document.getElementById('reportOutput').innerHTML = `
-                <p style="color: #999; text-align: center; padding: 40px;">
-                    Your generated report will appear here...<br><br>
-                    📌 Upload data and click "Generate Report" to start
-                </p>
-            `;
-            document.getElementById('actionButtons').style.display = 'none';
-            currentReport = '';
+        
+        function showResult(text, isDownloadable) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('resultState').style.display = 'block';
+            
+            const outputContent = document.getElementById('outputContent');
+            
+            if (isDownloadable) {
+                outputContent.textContent = text;
+            } else {
+                // Typewriter effect for text output
+                outputContent.innerHTML = '';
+                let i = 0;
+                const speed = 5;
+                function type() {
+                    if (i < text.length) {
+                        const char = text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+                        outputContent.innerHTML += char;
+                        i++;
+                        document.getElementById('outputBox').scrollTop = document.getElementById('outputBox').scrollHeight;
+                        setTimeout(type, speed);
+                    }
+                }
+                type();
+            }
+            
+            document.getElementById('resultState').scrollIntoView({behavior: 'smooth'});
         }
     </script>
 </body>
